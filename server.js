@@ -18,7 +18,7 @@ mongoose.connect(
 }).catch((err) => console.log(err));
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://blog-frontend-task.netlify.app/',
   credentials: true,
 }));
 app.use(express.json({ limit: '5mb' }));
