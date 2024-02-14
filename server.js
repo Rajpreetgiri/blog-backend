@@ -9,7 +9,7 @@ const port = 4000;
 
 // Middleware for parsing JSON
 mongoose.connect(
-  `mongodb://127.0.0.1:27017/blog`,
+  `mongodb+srv://demo:UOts5zRv5cdeJKLn@cluster0.jhgvb.mongodb.net/`,
   {
 
   },
