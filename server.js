@@ -18,7 +18,7 @@ mongoose.connect(
 }).catch((err) => console.log(err));
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
   credentials: true,
 }));
 app.use(express.json({ limit: '5mb' }));
