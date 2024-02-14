@@ -7,6 +7,12 @@ const allRoutes = require("./src/routes/index")
 const app = express();
 const port = 4000;
 
+app.use(cors({
+  origin: 'https://blog-frontend-task.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+
 // Middleware for parsing JSON
 mongoose.connect(
   `mongodb+srv://demo:UOts5zRv5cdeJKLn@cluster0.jhgvb.mongodb.net/`,
@@ -17,16 +23,10 @@ mongoose.connect(
   console.log('Mongodb connected!');
 }).catch((err) => console.log(err));
 
-app.use(cors({
-  origin: 'https://blog-frontend-task.netlify.app/',
-  credentials: true,
-}));
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({
   extended: true,
 }));
-
-
 
 
 // Sample route
