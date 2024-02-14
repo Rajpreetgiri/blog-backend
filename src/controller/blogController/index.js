@@ -7,12 +7,11 @@ const {
   deleteBlog,
   blogCount,
 } = require("../../services/blogService");
-const { generateUniqueSlug } = require("../../services/commonService");
 
 
 const blogController = {
   async create(req, res) {
-    const { title, content, category, featured, status } = req.body;
+    const { title, content, category, featured, status, publishOn } = req.body;
 
     // requested data valid or not
     const blogCreateSchema = Joi.object({
@@ -20,15 +19,17 @@ const blogController = {
       content: Joi.string().required(),
       category: Joi.string().required(),
       featured: Joi.boolean().required(),
-      status: Joi.string().required()
+      status: Joi.string().required(),
+      publishOn: Joi.string().required(),
     });
 
     const { error } = blogCreateSchema.validate({
-      title: req.body.title,
-      content: req.body.content,
-      category: req.body.category,
-      featured: req.body.featured,
-      status: req.body.status
+      title,
+      content,
+      category,
+      featured,
+      status,
+      publishOn
     });
 
     if (error) {
@@ -36,21 +37,14 @@ const blogController = {
     }
 
     try {
-      const blogExist = await findBlog({ title });
 
-      if (blogExist) {
-        return res
-          .status(409)
-          .json({ success: false, message: "Blog already exist" });
-      }
-
-      let data = {
+      const data = {
         title,
         content,
-        slug: generateUniqueSlug(title),
         category, 
         featured, 
-        status
+        status,
+        publishOn
       };
 
       const result = await createBlog(data);
@@ -94,7 +88,7 @@ const blogController = {
 
   async findOne(req, res) {
     try {
-      const data = await findBlog({ slug: req.params.slug });
+      const data = await findBlog({ _id: req.params.id });
 
       return res.status(200).json({
         success: true,
@@ -109,13 +103,13 @@ const blogController = {
 
   async updateOne(req, res) {
     try {
-      if (!req.params.slug) {
+      if (!req.params.id) {
         return res
           .status(400)
           .json({ success: false, message: "All fields are required" });
       }
 
-      const data = await findAndUpdateBlog(req.params.slug, req.body);
+      const data = await findAndUpdateBlog(req.params.id, req.body);
 
       return res.status(200).json({
         success: true,
@@ -131,7 +125,13 @@ const blogController = {
 
   async delete(req, res, next) {
     try {
-      const data = await deleteBlog(req.params.slug);
+      if(!req.params.id) {
+        return res.status(404).json({
+          success: true,
+          message: "All fields required"
+        })
+      }
+      const data = await deleteBlog(req.params.id);
 
       return res.status(200).json({
         success: true,

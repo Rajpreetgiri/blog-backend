@@ -8,7 +8,7 @@ const app = express();
 const port = 4000;
 
 app.use(cors({
-  origin: 'https://blog-frontend-task.netlify.app',
+  origin: ['http://localhost:3000', 'https://blog-frontend-task.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));

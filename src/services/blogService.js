@@ -23,17 +23,17 @@ async function blogCount() {
   return await BlogModel.find().countDocuments();
 }
 
-async function findAndUpdateBlog(slug, updatedData) {
+async function findAndUpdateBlog(id, updatedData) {
   try {
-    return await BlogModel.findOneAndUpdate({ $and: [{ slug }] }, { $set: updatedData }, { new: true });
+    return await BlogModel.findOneAndUpdate({ $and: [{ _id: id }] }, { $set: updatedData }, { new: true });
   } catch (error) {
     throw new Error(error);
   }
 }
 
-async function deleteBlog(slug) {
+async function deleteBlog(id) {
   try {
-    return await BlogModel.deleteOne({ $and: [{ slug }] });
+    return await BlogModel.deleteOne({ $and: [{ _id: id }] });
   } catch (error) {
     throw new Error(error);
   }

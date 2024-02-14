@@ -31,8 +31,8 @@ router.post("/login", (req, res) => {
 // Blogs
 router.get("/blogs", blogController.find);
 router.post("/blog-create", blogController.create);
-router.get("/blog/:slug", blogController.findOne);
-router.put("/blog-edit/:slug", blogController.updateOne);
-router.delete("/blog-delete/:slug", blogController.delete);
+router.get("/blog/:id", blogController.findOne);
+router.put("/blog-edit/:id", blogController.updateOne);
+router.delete("/blog-delete/:id", blogController.delete);
 
 module.exports = router

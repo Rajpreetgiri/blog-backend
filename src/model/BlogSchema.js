@@ -5,6 +5,7 @@ const BlogSchema = new mongoose.Schema(
     {
         title: { type: String },
         slug: { type: String },
+        publishOn: { type: String },
         status: { type: String },
         category:{ type: String },
         content: { type: String },
